@@ -31,13 +31,16 @@ Tudo com **custo zero de operação**, usando só fontes de dados abertas e plan
 
 | | |
 |---|---|
-| 📍 **Varredura por raio** | Usa a localização real do aparelho (ou o endereço digitado) e lista as empresas no raio escolhido, de 1 a 500 km. São cerca de 15 mil empresas em 3 km, em ~3 segundos. |
+| 📍 **Varredura por raio** | Usa a localização real do aparelho (ou o endereço digitado) e lista as empresas no raio escolhido, de 1 a 500 km. No celular é um toque só: os 5 km em volta do aparelho, sem mapa, para usar na rua. |
+| 🇧🇷 **Brasil inteiro por categoria** | 4,5 milhões de empresas do país. Escolha "provedor de internet", "padaria", "oficina"… e a lista vem do mais perto ao mais longe (ex.: os 7 mil provedores do Brasil em segundos). |
+| 🏷️ **Busca por categoria** | Filtra os resultados por tipo de negócio, cruzando a categoria do mapa com a atividade oficial do CNPJ (CNAE). |
 | 🔎 **Diagnóstico do site** | Visita a página inicial (com proteção contra SSRF) e aponta: sem HTTPS, não responsivo, sem WhatsApp/telefone clicável, lento, desatualizado, ou "site" que é só Instagram/Linktree. |
 | 🤖 **Resumo com IA** | Gera risco de perda, manchete, perdas por impacto, mensagem de abertura, follow-up, respostas a objeções e próximo passo, seguindo o roteiro "dor → consequência → solução → convite". A IA recebe só sinais técnicos, nunca dados pessoais. |
-| 💬 **Contato em 1 toque** | Botões de WhatsApp (com a mensagem pronta), ligar, e-mail, site, Instagram, Facebook, Google Maps e rota. Aparecem apenas quando o dado existe. Usar um deles já registra o contato na carteira. |
-| 💰 **Sugestões e preço base** | Monta o escopo do site pelo segmento (cardápio para restaurante, agenda para clínica, orçamento para oficina…) e calcula horas × valor da hora × tecnologia. O valor final fica para depois da reunião. |
+| 💬 **Contato em 1 toque** | Botões de WhatsApp (com a mensagem pronta), ligar, e-mail, site, Instagram, Facebook, Google Maps e rota. Ao voltar do WhatsApp, o site pergunta "Você enviou a mensagem?" e só registra o contato com a confirmação (nada de funil inflado por clique). |
+| 💰 **Sugestões e preço base** | 31 itens em 5 grupos e pacotes prontos (Essencial, Profissional, Completo). Calcula horas × valor da hora × tecnologia, com mensal separado e premissas na proposta. |
+| 📅 **Agenda da equipe** | Calendário de reuniões, visitas e ligações. Ao agendar pela ficha, leva junto só os itens da proposta escolhidos. |
 | 🧭 **Funil e follow-up** | Etapas em linha do tempo clicável, funil de vendas, alerta de contatos parados há 2–5 dias e notificação no navegador. |
-| 👥 **Equipe** | Acesso só por convite, um administrador, histórico de quem registrou o quê e registro do local de cada entrada. Atualiza sozinho para todos. |
+| 👥 **Equipe e administração** | Acesso só por convite. Quem tenta entrar sem autorização vira um pedido no sininho do admin (autorizar/recusar na hora). Sessões por aparelho com "online agora" e locais de entrada agrupados. |
 | 📱 **PC e celular** | Layout responsivo pensado para usar na rua, no celular. |
 
 <div align="center">
@@ -49,10 +52,14 @@ Tudo com **custo zero de operação**, usando só fontes de dados abertas e plan
 | Computador | Celular |
 |---|---|
 | <img src="media/desktop-01-visao-geral.png" width="480"> | <img src="media/mobile-01-visao-geral.png" width="200"> |
-| <img src="media/desktop-03-varredura-cartoes.png" width="480"> | <img src="media/mobile-03-varredura-cartoes.png" width="200"> |
+| <img src="media/desktop-02-varredura-mapa.png" width="480"> | <img src="media/mobile-02-varredura.png" width="200"> |
+| <img src="media/desktop-08-brasil-inteiro.png" width="480"> | <img src="media/mobile-03-varredura-cartoes.png" width="200"> |
 | <img src="media/desktop-04-ficha-resumo-ia.png" width="480"> | <img src="media/mobile-04-ficha-resumo-ia.png" width="200"> |
 | <img src="media/desktop-05-sugestoes-preco.png" width="480"> | <img src="media/mobile-05-sugestoes-preco.png" width="200"> |
+| <img src="media/desktop-09-agenda.png" width="480"> | <img src="media/mobile-09-agenda.png" width="200"> |
 | <img src="media/desktop-07-etapas-historico.png" width="480"> | <img src="media/mobile-07-etapas-historico.png" width="200"> |
+| <img src="media/desktop-11-pedidos-acesso.png" width="480"> | <img src="media/mobile-11-pedidos-acesso.png" width="200"> |
+| <img src="media/desktop-10-admin-sessoes.png" width="480"> | <img src="media/mobile-10-admin-sessoes.png" width="200"> |
 
 > Os prints usam o **modo demonstração**: nomes, endereços e contatos das empresas foram trocados por dados fictícios.
 
@@ -70,12 +77,12 @@ Tudo com **custo zero de operação**, usando só fontes de dados abertas e plan
 - **OpenRouter** (`openrouter/free`) com saída em JSON, novas tentativas e leitura tolerante a respostas cortadas
 
 **Dados (todos abertos e gratuitos)**
-- **Overture Maps Places**: ~490 mil empresas da Grande SP, atualizadas mensalmente, filtradas com **DuckDB** direto do S3 por região
-- **Receita Federal (Dados Abertos CNPJ)**: cruzamento por telefone e por CEP + número + similaridade de nome (Jaro-Winkler) para trazer CNPJ, CNAE e data de abertura
+- **Overture Maps Places**: **4,5 milhões de empresas do Brasil inteiro**, atualizadas mensalmente, lidas com **DuckDB** direto do S3
+- **Receita Federal (Dados Abertos CNPJ)**: 28 milhões de estabelecimentos ativos cruzados por telefone e por CEP + número + similaridade de nome (Jaro-Winkler): ~850 mil empresas com CNPJ, CNAE e data de abertura
 - **OpenStreetMap / Photon** como reserva fora da base, **BrasilAPI** para checar o CNPJ ao vivo
 
 **Infra e DevOps**
-- **Cloudflare Pages**: site estático com a base de empresas em arquivos por quadrado (~2,8 km), lidos sob demanda, sem limite de consultas
+- **Cloudflare Pages**: site estático com a base nacional em ~15 mil arquivos (por região, em blocos de 0,5°, e por categoria, em quadrados de até 5 MB), lidos sob demanda e do mais perto ao mais longe, sem limite de consultas
 - **Brevo (SMTP)** para os e-mails de acesso, com modelo próprio do SiteRadar
 - Build em Node com CSP restrita, HSTS e versão nos arquivos para furar o cache; deploy com **Wrangler**
 - Testes com `node:test` (varredura, IA, segurança da análise de sites, verificação de CNPJ)
